@@ -6,16 +6,15 @@
  * @author Ethan Rocklin
  */
 
-public class InsertionSort {
+public class InsertionSort implements Sort {
 
-    final private static int ARRAY_COUNT = 5000;
-    final private static int SIZE = 10000;
+    final private static int ARRAY_COUNT = 10000;
     final private static int MAX_VAL = 100000;
     final private static int MIN_VAL = -100000;
 
     public static void main(String[] arg) {
         System.out.print("\nBeginning INSERTION SORT Test\n");
-        SortingEngine.testSortingAlgo(ARRAY_COUNT, SIZE, MIN_VAL, MAX_VAL);
+        SortingEngine.testSortingAlgo(new InsertionSort(), ARRAY_COUNT, MIN_VAL, MAX_VAL);
         System.out.print("End of INSERTION SORT Test\n");
     }
 
@@ -24,7 +23,7 @@ public class InsertionSort {
      * @param arr An array of integers
      * @return The array sorted in increasing order
      */
-    public static int[] sort(int[] arr) {
+    public int[] sort(int[] arr) {
         for (int i = 1; i < arr.length; i++) {
            int curr = arr[i];
            // Starts index for the scan one element behind the current element

@@ -5,16 +5,17 @@ import java.util.Random;
 /**
  * This class is the primary engine for testing the accuracy of various
  * sorting algorithms. It randomly generates a specified number of arrays
- * with a specified size and range of possible integers. The specifiers
- * for each test are implemented as global constants in their respective
- * sorting class. For example, the specifications for Insertion Sort and
- * Merge Sort are within their respective classes.
+ * with 0 elements up to a number of elements equal to the specified array
+ * count and range of possible integers. The specifiers for each tests are
+ * implemented as global constants in their respective sorting class.
+ * For example, the specifications for Insertion Sort and Merge Sort
+ * are within their respective classes.
  *
  * To test a particular sorting algorithm that sorts in increasing order,
  * simply run the class for that sorting algorithm. If the class for your
  * algorithm does not exist, create a class amd follow a similar structure
  * to an existing sorting class in this package. For example, make sure that
- * the ARRAY_COUNT, SIZE, MAX_VAL, and MIN_VAL are global constants or
+ * the ARRAY_COUNT, MAX_VAL, and MIN_VAL are global constants or
  * define them such that SortingEngine.testSortingAlgo() can be called safely,
  * and that they have appropriate values befitting valid arrays and integer
  * limits.
@@ -54,15 +55,21 @@ public class SortingEngine {
         return true;
     }
 
-    public static void testSortingAlgo(int arrCount, int size, int min, int max) {
+    // TO DO: CHECK FOR EDGE CASES LIKE EMPTY AND 1-ELEMENT ARRAYS DO EACH TEST
+
+    /**
+     *
+     * @param sortType The class of the calling sorting algorithm
+     * @param arrCount The number of arrays to generate and test
+     * @param minEl The smallest integer allowed to be an element
+     * @param maxEl The largest integer allowed to be an element
+     */
+    public static void testSortingAlgo(Sort sortType, int arrCount, int minEl, int maxEl) {
         // Checks for invalid arguments
         if (arrCount < 1) {
             System.out.print("INVALID array count. REQUIRED: arrCount > 0\n");
         }
-        if (size < 0) {
-            System.out.print("INVALID array size. REQUIRED: size >= 0\n");
-        }
-        if (min > max) {
+        if (minEl > maxEl) {
             System.out.print("INVALID array size. REQUIRED: \n");
         }
         int count = 0;
@@ -71,8 +78,8 @@ public class SortingEngine {
         // Captures the effective start of the test
         Instant start = Instant.now();
         while (count < arrCount) {
-            int[] arr = generateArray(size, min, max);
-            arr = InsertionSort.sort(arr);
+            int[] arr = generateArray(count, minEl, maxEl);
+            arr = sortType.sort(arr);
             if (isSorted(arr)) {
                 passed++;
             } else {
@@ -83,6 +90,7 @@ public class SortingEngine {
             count++;
         }
         Instant end = Instant.now();
+        printSizeSuccesses(arrCount, passed);
         printTimes(start, end);
     }
 
@@ -96,8 +104,20 @@ public class SortingEngine {
             System.out.print(arr[i]);
             System.out.print(", ");
         }
-        System.out.print(arr[arr.length - 1]);
+        if (arr.length != 0) {
+            System.out.print(arr[arr.length - 1]);
+        }
         System.out.print("]\n");
+    }
+
+    /**
+     * This method prints the number of arrays that were successfully sorted.
+     * @param arrCount The number of arrays tested
+     * @param passed The number of arrays that were sorted correctly
+     */
+    private static void printSizeSuccesses(int arrCount, int passed) {
+        System.out.printf("\n%d arrays with 0 to %d elements were sorted in ascending order\n\n",
+                passed, arrCount);
     }
 
     /**
@@ -109,7 +129,7 @@ public class SortingEngine {
     public static void printTimes(Instant start, Instant end) {
         Duration duration = Duration.between(start, end);
         long milliseconds = duration.toMillis();
-        System.out.print("\n\nTest Times\n");
+        System.out.print("Test Times\n");
         System.out.print("----------\n");
         System.out.printf("Nanoseconds:\t%d\n", duration.toNanos());
         System.out.printf("Milliseconds:\t%d\n", milliseconds);
