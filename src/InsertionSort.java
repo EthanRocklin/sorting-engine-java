@@ -1,5 +1,5 @@
 /**
- * This class includes the classic definition of Insertion Sort,
+ * This class includes the classic Insertion Sort algorithm,
  * global constants for specifying the extensiveness of the test,
  * and tests its runtime using the SortingEngine class.
  *
