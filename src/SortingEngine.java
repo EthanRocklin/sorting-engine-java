@@ -99,7 +99,7 @@ public class SortingEngine {
      * @param arr An array of integers
      */
     private static void printArray(int[] arr) {
-        System.out.print("[");
+        System.out.print("\n[");
         for (int i = 0; i < arr.length - 1; i++) {
             System.out.print(arr[i]);
             System.out.print(", ");
@@ -128,13 +128,17 @@ public class SortingEngine {
      */
     public static void printTimes(Instant start, Instant end) {
         Duration duration = Duration.between(start, end);
+        String minutes = String.format("%02d:%02d",
+                duration.toMinutes(),
+                duration.toSecondsPart()
+        );
         long milliseconds = duration.toMillis();
         System.out.print("Test Times\n");
         System.out.print("----------\n");
         System.out.printf("Nanoseconds:\t%d\n", duration.toNanos());
         System.out.printf("Milliseconds:\t%d\n", milliseconds);
         System.out.printf("Seconds:\t\t%f\n", milliseconds / 1000.0);
-        System.out.printf("Minutes:\t\t%f\n\n", milliseconds / 60000.0);
+        System.out.printf("Minutes:\t\t%s\n\n", minutes);
     }
 
 }
